@@ -1,0 +1,57 @@
+--------------- 失败的 ---------------
+
+/mnt # ./a.out
+[   34.679471] mmap: debug---sjf--- pid: 1096, before unmap, target addr: 400000, find_vma: vm.start: 7ffff2c7c000, vm.end: 7ffff2c9d000
+[   34.681969] mmap: debug---sjf--- pid: 1096, after unmap, target addr: 400000, find_vma: vm.start: 7ffff2c7c000, vm.end: 7ffff2c9d000
+[   34.683628] mmap: debug---sjf--- pid: 1096, before unmap, target addr: 6b7000, find_vma: vm.start: 7ffff2c7c000, vm.end: 7ffff2c9d000
+[   34.687728] mmap: debug---sjf--- pid: 1096, after unmap, target addr: 6b7000, find_vma: vm.start: 7ffff2c7c000, vm.end: 7ffff2c9d000
+mmap len: 3 ...
+[   34.692947] mmap: debug---sjf--- pid: 1096, before unmap, target addr: 7f149b762000, find_vma: vm.start: 7ffff2c7c000, vm.end: 7ffff2c9d000
+[   34.694179] mmap: debug---sjf--- pid: 1096, after unmap, target addr: 7f149b762000, find_vma: vm.start: 7ffff2c7c000, vm.end: 7ffff2c9d000
+mmap success, addr: 7f149b762000, touching mem...
+mincore ...
+addr +    0: incore
+addr + 4096: incore
+addr + 8192: incore
+sleeping...
+mmap fixed addr: 7f149b762000, len: 2 ...
+[   35.697065] mmap: debug---sjf--- pid: 1096, before unmap, target addr: 7f149b762000, find_vma: vm.start: 7f149b762000, vm.end: 7f149b765000
+[   35.698613] mmap: debug---sjf---, pid: 1096, do_unmap executed
+[   35.700692] mmap: debug---sjf--- pid: 1096, after unmap, target addr: 7f149b762000, find_vma: vm.start: 7f149b764000, vm.end: 7f149b765000
+[   35.701798] mmap: debug---sjf--- pid: 1096, make vm_area_alloc return NULL
+mmap fixed failed, error: Cannot allocate memory
+mincore ...
+mincore failed, err: Cannot allocate memory
+Now touch mem, expect segmentation fault
+[   35.707426] a.out[1096]: segfault at 7f149b762001 ip 0000000000400e53 sp 00007ffff2c9b230 error 6 in a.out[400000+b7000]
+[   35.711327] Code: 7e ba 48 8d 3d 46 1a 09 00 e8 b9 f7 00 00 c7 45 cc 00 00 00 00 eb 1a 8b 45 cc c1 e0 0c 83 c0 01 48 63 d0 48 8b 45 e0 48 01 d0 <c6> 00 31 83 45 cc 01 83 7d cc 02 7e e0 e9 e8 00 00 00 48 8d 3d 3c
+Segmentation fault
+/mnt #
+
+
+--------------- 正常的 ---------------
+
+/mnt # ./a.out
+[   95.487784] mmap: debug---sjf--- pid: 1097, before unmap, target addr: 400000, find_vma: vm.start: 7ffdc0055000, vm.end: 7ffdc0076000
+[   95.490000] mmap: debug---sjf--- pid: 1097, after unmap, target addr: 400000, find_vma: vm.start: 7ffdc0055000, vm.end: 7ffdc0076000
+[   95.492091] mmap: debug---sjf--- pid: 1097, before unmap, target addr: 6b7000, find_vma: vm.start: 7ffdc0055000, vm.end: 7ffdc0076000
+[   95.493608] mmap: debug---sjf--- pid: 1097, after unmap, target addr: 6b7000, find_vma: vm.start: 7ffdc0055000, vm.end: 7ffdc0076000
+mmap len: 3 ...
+[   95.497940] mmap: debug---sjf--- pid: 1097, before unmap, target addr: 7ffba7aad000, find_vma: vm.start: 7ffdc0055000, vm.end: 7ffdc0076000
+[   95.499278] mmap: debug---sjf--- pid: 1097, after unmap, target addr: 7ffba7aad000, find_vma: vm.start: 7ffdc0055000, vm.end: 7ffdc0076000
+mmap success, addr: 7ffba7aad000, touching mem...
+mincore ...
+addr +    0: incore
+addr + 4096: incore
+addr + 8192: incore
+sleeping...
+mmap fixed addr: 7ffba7aad000, len: 2 ...
+[   96.504987] mmap: debug---sjf--- pid: 1097, before unmap, target addr: 7ffba7aad000, find_vma: vm.start: 7ffba7aad000, vm.end: 7ffba7ab0000
+[   96.506852] mmap: debug---sjf---, pid: 1097, do_unmap executed
+[   96.507725] mmap: debug---sjf--- pid: 1097, after unmap, target addr: 7ffba7aad000, find_vma: vm.start: 7ffba7aaf000, vm.end: 7ffba7ab0000
+mmap fixed success, touching mem ...
+mincore ...
+addr +    0: incore
+addr + 4096: incore
+addr + 8192: incore
+Done.
